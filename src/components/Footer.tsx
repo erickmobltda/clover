@@ -14,7 +14,7 @@ const Footer = () => (
     </div>
 
     <div className="footer-logo">
-      <img src="/logo-footer.png" alt="Clover Pub" />
+      <img src="logo-footer.png" alt="Clover Pub" />
     </div>
 
     <div className="footer-contact">
