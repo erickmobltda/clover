@@ -1,5 +1,11 @@
-import { type FormEvent, useState } from 'react'
+import { type FormEvent, type ReactNode, useEffect, useRef, useState } from 'react'
 import { FiCalendar, FiUsers, FiPhone, FiArrowRight } from 'react-icons/fi'
+import {
+  PiBeerSteinBold,
+  PiForkKnifeBold,
+  PiFootballBold,
+  PiMusicNotesBold,
+} from 'react-icons/pi'
 import { beerStyles, hallOfFame, homeHighlights, WHATSAPP_NUMBER } from '../data/content'
 import { openWhatsApp } from '../utils/whatsapp'
 
@@ -10,6 +16,9 @@ const Home = () => {
     date: '',
     guests: 2,
   })
+  const beerTrackRef = useRef<HTMLDivElement>(null)
+  const heroSlides = ['/hero-slide-1.jpg', '/hero-slide-2.jpg']
+  const [currentSlide, setCurrentSlide] = useState(0)
 
   const handleReservation = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -24,8 +33,49 @@ const Home = () => {
     openWhatsApp(message, WHATSAPP_NUMBER)
   }
 
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
+    }, 6000)
+    return () => clearInterval(id)
+  }, [heroSlides.length])
+
+  const highlightIcons: Record<string, ReactNode> = {
+    'Great Beer': <PiBeerSteinBold />,
+    'Great Food': <PiForkKnifeBold />,
+    'Great Sports': <PiFootballBold />,
+    'Great Music': <PiMusicNotesBold />,
+  }
+
+  const scrollBeerTrack = (direction: 'left' | 'right') => {
+    const container = beerTrackRef.current
+    if (!container) return
+    const amount = direction === 'left' ? -240 : 240
+    container.scrollBy({ left: amount, behavior: 'smooth' })
+  }
+
+  type Highlight = (typeof homeHighlights)[number]
+  const highlightRows: Highlight[][] = []
+  for (let i = 0; i < homeHighlights.length; i += 2) {
+    highlightRows.push(homeHighlights.slice(i, i + 2))
+  }
+
   return (
     <div className="page home-page">
+      <section className="hero-slider" aria-label="Galeria do Clover Pub">
+        {heroSlides.map((src, index) => (
+          <div
+            key={src}
+            className={`hero-slide ${index === currentSlide ? 'is-active' : ''}`}
+            style={{ backgroundImage: `url(${src})` }}
+            role="presentation"
+          />
+        ))}
+        <div className="hero-slider-overlay">
+          <p>Experiência completa no coração de Joinville</p>
+        </div>
+      </section>
+
       <section className="hero">
         <p className="eyebrow">Desde 2015</p>
         <h1>Um tradicional pub europeu em Joinville</h1>
@@ -35,7 +85,13 @@ const Home = () => {
           vivo.
         </p>
         <div className="hero-ctas">
-          <button type="button" className="cta primary" onClick={() => openWhatsApp('Olá! Quero fazer uma reserva.', WHATSAPP_NUMBER)}>
+          <button
+            type="button"
+            className="cta primary"
+            onClick={() =>
+              openWhatsApp('Olá! Quero fazer uma reserva.', WHATSAPP_NUMBER)
+            }
+          >
             Fazer reserva
           </button>
           <a className="cta ghost" href="#cervejas">
@@ -45,11 +101,20 @@ const Home = () => {
       </section>
 
       <section className="highlights">
-        {homeHighlights.map((highlight) => (
-          <article key={highlight.title} className="highlight-card">
-            <h3>{highlight.title}</h3>
-            <p>{highlight.description}</p>
-          </article>
+        {highlightRows.map((row, index) => (
+          <div key={`row-${index}`} className="highlight-row">
+            {row.map((highlight) => (
+              <article key={highlight.title} className="highlight-card">
+                <div className="icon-circle" aria-hidden="true">
+                  {highlightIcons[highlight.title]}
+                </div>
+                <div>
+                  <h3>{highlight.title}</h3>
+                  <p>{highlight.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         ))}
       </section>
 
@@ -166,14 +231,37 @@ const Home = () => {
             semanalmente para garantir novidades e frescor.
           </p>
         </div>
-        <div className="beer-track" role="list" aria-label="Estilos de cerveja">
-          {beerStyles.map((style) => (
-            <article key={style.name} role="listitem">
-              <img src={style.image} alt={`Estilo ${style.name}`} loading="lazy" />
-              <h3>{style.name}</h3>
-              <p>{style.description}</p>
-            </article>
-          ))}
+        <div className="beer-track-wrapper">
+          <div className="beer-controls" aria-hidden="true">
+            <button
+              type="button"
+              aria-label="Ver estilos anteriores"
+              onClick={() => scrollBeerTrack('left')}
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              aria-label="Ver próximos estilos"
+              onClick={() => scrollBeerTrack('right')}
+            >
+              ›
+            </button>
+          </div>
+          <div
+            className="beer-track"
+            role="list"
+            aria-label="Estilos de cerveja"
+            ref={beerTrackRef}
+          >
+            {beerStyles.map((style) => (
+              <article key={style.name} role="listitem">
+                <img src={style.image} alt={`Estilo ${style.name}`} loading="lazy" />
+                <h3>{style.name}</h3>
+                <p>{style.description}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -182,7 +270,9 @@ const Home = () => {
         <button
           type="button"
           className="cta primary"
-          onClick={() => openWhatsApp('Olá! Quero saber da programação do Clover Pub.', WHATSAPP_NUMBER)}
+          onClick={() =>
+            openWhatsApp('Olá! Quero saber da programação do Clover Pub.', WHATSAPP_NUMBER)
+          }
         >
           Programação completa <FiArrowRight />
         </button>

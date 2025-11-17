@@ -13,6 +13,39 @@
   flex: 1;
 }
 
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.section-title,
+.eyebrow,
+.primary-nav a,
+.primary-nav button,
+.cta-banner h2 {
+  font-family: 'Grenze Gotisch', 'Playfair Display', serif;
+}
+
+h1 {
+  font-size: clamp(2.8rem, 5vw, 4rem);
+  margin: 0.5rem 0 1rem;
+}
+
+h2 {
+  font-size: clamp(2.1rem, 4vw, 3rem);
+  margin: 0.4rem 0 1rem;
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  margin: 0.3rem 0 0.8rem;
+}
+
 .skip-link {
   position: absolute;
   left: -999px;
@@ -43,23 +76,24 @@
   padding: 1rem 1.5rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
+  justify-content: flex-start;
 }
 
-.brand a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.brand-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  display: block;
-}
-
+.brand,
+.brand-title,
 .brand-subtitle {
-  font-size: 0.85rem;
-  color: var(--stone-400);
+  display: none;
+}
+
+.header-logo-link {
+  margin-left: 0;
+}
+
+.header-logo {
+  width: 120px;
+  height: auto;
+  display: block;
 }
 
 .menu-toggle {
@@ -75,6 +109,7 @@
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  flex-wrap: wrap;
   margin-left: auto;
 }
 
@@ -82,7 +117,7 @@
 .primary-nav button {
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 0.85rem;
+  font-size: 2rem;
   color: var(--stone-200);
   background: none;
   border: none;
@@ -113,21 +148,50 @@ section {
 
 .hero {
   text-align: left;
-  padding: 4rem 0 2rem;
+  margin-top: 0;
+  padding: 0 0 2rem;
+}
+
+.hero-slider {
+  position: relative;
+  height: clamp(220px, 50vw, 420px);
+  margin: 2rem 0 3rem;
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out, transform 8s ease;
+  transform: scale(1.08);
+}
+
+.hero-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hero-slider-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(4, 26, 19, 0.75), rgba(0, 0, 0, 0.1));
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
 }
 
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: var(--gold-500);
-  font-size: 0.85rem;
-}
-
-.hero h1,
-.subpage-hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.5rem, 5vw, 3.8rem);
-  margin: 0.5rem 0 1rem;
+  font-size: 2rem;
+  margin-bottom: 0.4rem;
 }
 
 .lead {
@@ -165,8 +229,14 @@ section {
 }
 
 .highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.highlight-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
@@ -175,11 +245,48 @@ section {
   padding: 1.5rem;
   border-radius: 1rem;
   background: rgba(11, 48, 33, 0.6);
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
 }
 
 .highlight-card h3 {
-  font-family: 'Playfair Display', serif;
   margin-top: 0;
+}
+
+.experience h2,
+.reservation h2,
+.hall-of-fame h2,
+.cardapio-panel h2,
+.event-resources h3,
+.recruitment-grid h2,
+.section-heading,
+.beer-header h2 {
+  font-family: 'Grenze Gotisch', serif;
+}
+
+.hall-grid article h3,
+.hall-grid article p,
+.beer-track article h3,
+.reservation-notes li,
+.reservation .small,
+.cardapio-description,
+.cardapio-eyebrow,
+.cta-banner h2,
+.cta-banner p {
+  font-family: 'Grenze Gotisch', serif;
+}
+
+.icon-circle {
+  width: 90px;
+  min-width: 90px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-500);
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  color: var(--gold-500);
 }
 
 .reservation {
@@ -190,6 +297,22 @@ section {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1.5rem;
   background: linear-gradient(135deg, rgba(4, 26, 19, 0.8), rgba(19, 74, 50, 0.8));
+  position: relative;
+  overflow: hidden;
+}
+
+.reservation::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('https://cloverpub.com.br/wp-content/uploads/2025/04/part-1.png') center/cover;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+.reservation > * {
+  position: relative;
+  z-index: 1;
 }
 
 .reservation-form {
@@ -268,8 +391,18 @@ section {
   display: flex;
   gap: 1rem;
   overflow-x: auto;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
   padding-bottom: 1rem;
+}
+
+.beer-track::-webkit-scrollbar {
+  height: 6px;
+}
+
+.beer-track::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
 }
 
 .beer-track article {
@@ -278,6 +411,36 @@ section {
   padding: 1rem;
   border-radius: 1rem;
   scroll-snap-align: start;
+}
+
+.beer-track-wrapper {
+  position: relative;
+}
+
+.beer-controls {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.beer-controls button {
+  pointer-events: all;
+  align-self: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(4, 26, 19, 0.8);
+  color: var(--stone-200);
+  border-radius: 999px;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+}
+
+.beer-controls button:hover {
+  border-color: var(--gold-500);
+  color: var(--gold-500);
 }
 
 .cta-banner {
@@ -290,19 +453,56 @@ section {
 
 .site-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 2rem 1.5rem;
+  padding: 2.5rem 1.5rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
   color: var(--stone-400);
+  align-items: center;
+}
+
+.footer-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--stone-200);
+  text-decoration: none;
+}
+
+.footer-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-500);
+  display: grid;
+  place-items: center;
+  color: var(--gold-500);
+  font-size: 1.3rem;
+}
+
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .footer-eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-size: 0.8rem;
-  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.2rem;
   color: var(--stone-600);
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-logo img {
+  width: 200px;
+  height: auto;
 }
 
 .whatsapp-fab {
@@ -380,7 +580,12 @@ section {
   padding-top: 3rem;
 }
 
-.event-resources,
+.event-resources {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .recruitment-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -394,6 +599,26 @@ section {
   border-radius: 1rem;
   padding: 1.5rem;
   background: rgba(11, 48, 33, 0.6);
+}
+
+.event-resources article {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(4, 26, 19, 0.85);
+}
+
+.event-resource-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-500);
+  display: grid;
+  place-items: center;
+  font-size: 1.8rem;
+  color: var(--gold-500);
+  flex-shrink: 0;
 }
 
 .recruitment-grid ul {
@@ -439,10 +664,16 @@ section {
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
+    margin-left: 0;
   }
 
   .primary-nav.is-open {
     display: flex;
+  }
+
+  .primary-nav a,
+  .primary-nav button {
+    font-size: 1.2rem;
   }
 
   .cardapio-cta {
@@ -461,5 +692,9 @@ section {
     left: 1rem;
     right: 1rem;
     justify-content: center;
+  }
+
+  .beer-controls {
+    display: none;
   }
 }

@@ -1,5 +1,16 @@
+import { type ReactNode } from 'react'
+import { PiBeerSteinBold, PiChairBold, PiMicrophoneBold, PiTelevisionBold } from 'react-icons/pi'
+import { MdOutlineMusicNote } from 'react-icons/md'
 import { eventResources, WHATSAPP_NUMBER } from '../data/content'
 import { openWhatsApp } from '../utils/whatsapp'
+
+const iconMap: Record<string, ReactNode> = {
+  '60 lugares em mesas': <PiChairBold />,
+  'Auditório para 50 pessoas': <PiMicrophoneBold />,
+  'Projetor + tela 80"': <PiTelevisionBold />,
+  'Palco para apresentações': <MdOutlineMusicNote />,
+  'Cardápio personalizável': <PiBeerSteinBold />,
+}
 
 const Eventos = () => (
   <div className="page eventos-page">
@@ -30,8 +41,13 @@ const Eventos = () => (
     <section className="event-resources">
       {eventResources.map((item) => (
         <article key={item.title}>
-          <h3>{item.title}</h3>
-          <p>{item.description}</p>
+          <div className="event-resource-icon" aria-hidden="true">
+            {iconMap[item.title] ?? <PiChairBold />}
+          </div>
+          <div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </div>
         </article>
       ))}
     </section>

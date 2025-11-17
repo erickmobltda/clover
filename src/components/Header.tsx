@@ -20,13 +20,11 @@ const Header = ({ onOpenCardapio }: HeaderProps) => {
   return (
     <header className="site-header">
       <div className="header-inner">
-        <div className="brand">
-          <Link to="/">
-            <span className="brand-title">Clover Pub</span>
-            <span className="brand-subtitle">Pub europeu em Joinville</span>
-          </Link>
-        </div>
 
+
+        <Link to="/" className="header-logo-link" aria-label="Voltar para a home">
+          <img src="/logo-header.png" alt="Clover European Pub" className="header-logo" />
+        </Link>
         <button
           className="menu-toggle"
           type="button"
@@ -58,14 +56,6 @@ const Header = ({ onOpenCardapio }: HeaderProps) => {
             Cardápio
           </button>
         </nav>
-
-        <button
-          className="cardapio-cta"
-          type="button"
-          onClick={onOpenCardapio}
-        >
-          Cardápio
-        </button>
       </div>
     </header>
   )
