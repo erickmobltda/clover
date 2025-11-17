@@ -17,7 +17,7 @@ const Home = () => {
     guests: 2,
   })
   const beerTrackRef = useRef<HTMLDivElement>(null)
-  const heroSlides = ['/assets/hero-slide-1.jpg', '/assets/hero-slide-2.jpg']
+  const heroSlides = ['/hero-slide-1.jpg', '/hero-slide-2.jpg']
   const [currentSlide, setCurrentSlide] = useState(0)
 
   const handleReservation = (event: FormEvent<HTMLFormElement>) => {
