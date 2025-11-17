@@ -19,16 +19,32 @@ Os arquivos prontos estarão em `dist/`.
 
 ## Publicação no GitHub Pages
 
-1. Defina o caminho base que o GitHub Pages usará (ex.: `/clover-site/`):
+### Configuração automática (recomendado)
+
+O projeto inclui um workflow do GitHub Actions (`.github/workflows/deploy.yml`) que faz o build e deploy automaticamente.
+
+**Para configurar:**
+
+1. No repositório do GitHub, vá em **Settings** → **Pages**
+2. Em **Source**, selecione **GitHub Actions**
+3. Faça um push para a branch `main` - o workflow irá fazer o build e deploy automaticamente
+
+O workflow já está configurado com `VITE_BASE_PATH=/clover/`. Se o nome do seu repositório for diferente, edite o arquivo `.github/workflows/deploy.yml` e altere o valor de `VITE_BASE_PATH`.
+
+### Deploy manual
+
+Se preferir fazer o deploy manualmente:
+
+1. Defina o caminho base que o GitHub Pages usará (ex.: `/clover/`):
 
    ```bash
-   export VITE_BASE_PATH=/NOME_DO_REPO/
+   export VITE_BASE_PATH=/clover/
    npm run build
    ```
 
-2. Publique o conteúdo de `dist/` na branch configurada para o Pages (geralmente `gh-pages`).
+2. Publique o conteúdo de `dist/` na branch configurada para o Pages.
 
-> Caso o site fique na raiz do domínio (`https://usuario.github.io/`), não é preciso setar `VITE_BASE_PATH`.
+> Caso o site fique na raiz do domínio (`https://usuario.github.io/`), não é preciso setar `VITE_BASE_PATH` ou defina como `/`.
 
 ## Estrutura principal
 
