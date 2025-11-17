@@ -23,7 +23,7 @@ const Header = ({ onOpenCardapio }: HeaderProps) => {
 
 
         <Link to="/" className="header-logo-link" aria-label="Voltar para a home">
-          <img src="logo-header.png" alt="Clover European Pub" className="header-logo" />
+          <img src="/logo-header.png" alt="Clover European Pub" className="header-logo" />
         </Link>
         <button
           className="menu-toggle"
