@@ -1,0 +1,4 @@
+- Destaque para o cardápio, sendo este navegável
+- Reserva de mesas/espaço
+- Franquia: Vantagens, benefícios, cadastro de leads
+- 
