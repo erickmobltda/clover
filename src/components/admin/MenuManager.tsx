@@ -53,15 +53,53 @@ const MenuManager = () => {
 
   const loadItems = async () => {
     try {
-      const q = query(collection(db, 'menuItems'), orderBy('category'), orderBy('name'))
+      setLoading(true)
+      // Use a simpler query that doesn't require composite index
+      // We'll sort in memory instead
+      const q = query(collection(db, 'menuItems'), orderBy('category'))
       const querySnapshot = await getDocs(q)
       const loadedItems: MenuItem[] = []
       querySnapshot.forEach((doc) => {
         loadedItems.push({ id: doc.id, ...doc.data() } as MenuItem)
       })
+      
+      // Sort items by name within each category
+      loadedItems.sort((a, b) => {
+        if (a.category !== b.category) {
+          return a.category.localeCompare(b.category)
+        }
+        return a.name.localeCompare(b.name)
+      })
+      
       setItems(loadedItems)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error loading items:', error)
+      // If it's a missing index error, try without orderBy
+      if (error?.code === 'failed-precondition' || error?.message?.includes('index')) {
+        console.warn('Composite index missing, fetching without orderBy...')
+        try {
+          const querySnapshot = await getDocs(collection(db, 'menuItems'))
+          const loadedItems: MenuItem[] = []
+          querySnapshot.forEach((doc) => {
+            loadedItems.push({ id: doc.id, ...doc.data() } as MenuItem)
+          })
+          
+          // Sort in memory
+          loadedItems.sort((a, b) => {
+            if (a.category !== b.category) {
+              return a.category.localeCompare(b.category)
+            }
+            return a.name.localeCompare(b.name)
+          })
+          
+          setItems(loadedItems)
+        } catch (retryError) {
+          console.error('Error loading items (retry):', retryError)
+          alert('Erro ao carregar itens do menu. Verifique o console para mais detalhes.')
+        }
+      } else {
+        alert('Erro ao carregar itens do menu. Verifique o console para mais detalhes.')
+      }
     } finally {
       setLoading(false)
     }

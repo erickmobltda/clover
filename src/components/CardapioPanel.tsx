@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react'
-import { FiX, FiChevronRight } from 'react-icons/fi'
+import { useState, useEffect, useRef, useMemo } from 'react'
+import { FiX, FiChevronRight, FiSearch, FiImage } from 'react-icons/fi'
 import { WHATSAPP_NUMBER } from '../data/content'
 import { buildWhatsAppUrl } from '../utils/whatsapp'
-import type { MenuItem, MenuCategory } from '../data/content'
+import type { MenuItem } from '../data/content'
 import { useMenuItems } from '../hooks/useMenuItems'
 
 type CardapioPanelProps = {
@@ -17,14 +17,55 @@ const formatPrice = (price: number | string): string => {
 
 const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({})
-  const { menuCategories, loading } = useMenuItems()
+  const { menuCategories, loading, error } = useMenuItems()
 
   useEffect(() => {
     if (open && menuCategories.length > 0) {
       setSelectedCategory(menuCategories[0].id)
     }
   }, [open, menuCategories])
+
+  // Filter menu categories based on search query
+  const filteredCategories = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return menuCategories
+    }
+
+    const query = searchQuery.toLowerCase().trim()
+    return menuCategories
+      .map((category) => {
+        const filteredItems = category.items.filter(
+          (item) =>
+            item.name.toLowerCase().includes(query) ||
+            (item.description && item.description.toLowerCase().includes(query))
+        )
+
+        // Also check subcategories if they exist
+        const filteredSubcategories = category.subcategories
+          ? category.subcategories.map((subcategory) => ({
+              ...subcategory,
+              items: subcategory.items.filter(
+                (item) =>
+                  item.name.toLowerCase().includes(query) ||
+                  (item.description && item.description.toLowerCase().includes(query))
+              ),
+            }))
+          : undefined
+
+        return {
+          ...category,
+          items: filteredItems,
+          subcategories: filteredSubcategories,
+        }
+      })
+      .filter(
+        (category) =>
+          category.items.length > 0 ||
+          (category.subcategories && category.subcategories.some((sub) => sub.items.length > 0))
+      )
+  }, [menuCategories, searchQuery])
 
   const scrollToCategory = (categoryId: string) => {
     setSelectedCategory(categoryId)
@@ -34,11 +75,6 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
     }
   }
 
-  const handleItemClick = (item: MenuItem, categoryName: string) => {
-    const message = `Olá! Gostaria de pedir: ${item.name}${item.description ? ` - ${item.description}` : ''} (${categoryName})`
-    window.open(buildWhatsAppUrl(message, WHATSAPP_NUMBER), '_blank')
-  }
-
   if (!open) return null
 
   if (loading) {
@@ -46,6 +82,29 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
       <div className="cardapio-overlay" role="dialog" aria-modal="true" aria-label="Cardápio">
         <div className="cardapio-panel">
           <div style={{ textAlign: 'center', padding: '40px' }}>Carregando cardápio...</div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="cardapio-overlay" role="dialog" aria-modal="true" aria-label="Cardápio">
+        <div className="cardapio-panel">
+          <button
+            className="cardapio-close"
+            type="button"
+            aria-label="Fechar cardápio"
+            onClick={onClose}
+          >
+            <FiX size={24} />
+          </button>
+          <div style={{ textAlign: 'center', padding: '40px', color: '#dc3545' }}>
+            <p>Erro ao carregar o cardápio.</p>
+            <p style={{ fontSize: '14px', marginTop: '10px' }}>
+              {error.message || 'Por favor, tente novamente mais tarde.'}
+            </p>
+          </div>
         </div>
       </div>
     )
@@ -67,9 +126,43 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
           <p className="cardapio-eyebrow">Menu Completo</p>
           <h2>Cardápio Clover Pub</h2>
           <p className="cardapio-description">
-            Navegue pelas categorias e descubra nossos pratos, drinks e bebidas. Clique em qualquer
-            item para pedir pelo WhatsApp.
+            Navegue pelas categorias e descubra nossos pratos, drinks e bebidas.
           </p>
+          <div style={{ marginTop: '20px', position: 'relative' }}>
+            <FiSearch
+              size={20}
+              style={{
+                position: 'absolute',
+                left: '16px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: '#666',
+                pointerEvents: 'none',
+              }}
+            />
+            <input
+              type="text"
+              placeholder="Buscar pratos, drinks ou bebidas..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '12px 16px 12px 48px',
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                fontSize: '16px',
+                boxSizing: 'border-box',
+                outline: 'none',
+                transition: 'border-color 0.2s',
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#134a32'
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#ddd'
+              }}
+            />
+          </div>
         </div>
 
         <div className="cardapio-container">
@@ -77,11 +170,15 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
             <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
               Nenhum item no cardápio ainda.
             </div>
+          ) : filteredCategories.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+              Nenhum item encontrado para "{searchQuery}".
+            </div>
           ) : (
             <>
               <nav className="cardapio-nav" aria-label="Navegação do cardápio">
                 <ul className="cardapio-nav-list">
-                  {menuCategories.map((category) => (
+                  {filteredCategories.map((category) => (
                 <li key={category.id}>
                   <button
                     type="button"
@@ -98,7 +195,7 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
               </nav>
 
               <div className="cardapio-content">
-                {menuCategories.map((category) => (
+                {filteredCategories.map((category) => (
               <section
                 key={category.id}
                 id={category.id}
@@ -128,8 +225,6 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
                           <MenuItemCard
                             key={`${subcategory.id}-${index}`}
                             item={item}
-                            categoryName={category.name}
-                            onItemClick={handleItemClick}
                           />
                         ))}
                       </div>
@@ -141,8 +236,6 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
                       <MenuItemCard
                         key={`${category.id}-${index}`}
                         item={item}
-                        categoryName={category.name}
-                        onItemClick={handleItemClick}
                       />
                     ))}
                   </div>
@@ -171,18 +264,37 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
 
 type MenuItemCardProps = {
   item: MenuItem
-  categoryName: string
-  onItemClick: (item: MenuItem, categoryName: string) => void
 }
 
-const MenuItemCard = ({ item, categoryName, onItemClick }: MenuItemCardProps) => {
+const MenuItemCard = ({ item }: MenuItemCardProps) => {
+  const [imageError, setImageError] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
+
+  const hasImage = item.image && !imageError
+
   return (
-    <article className="menu-item-card" onClick={() => onItemClick(item, categoryName)}>
-      {item.image && (
-        <div className="menu-item-image-wrapper">
-          <img src={item.image} alt={item.name} className="menu-item-image" loading="lazy" />
-        </div>
-      )}
+    <article className="menu-item-card">
+      <div className="menu-item-image-wrapper">
+        {hasImage ? (
+          <img
+            src={item.image}
+            alt={item.name}
+            className="menu-item-image"
+            loading="lazy"
+            onError={() => setImageError(true)}
+            onLoad={() => setImageLoaded(true)}
+            style={{ display: imageLoaded ? 'block' : 'none' }}
+          />
+        ) : null}
+        {!hasImage && (
+          <div className="menu-item-image-placeholder">
+            <FiImage size={48} style={{ marginBottom: '8px' }} />
+            <span style={{ fontSize: '12px', textAlign: 'center', padding: '0 16px' }}>
+              {item.name}
+            </span>
+          </div>
+        )}
+      </div>
       <div className="menu-item-content">
         <div className="menu-item-header">
           <h4 className="menu-item-name">{item.name}</h4>

@@ -11,13 +11,28 @@ export const useHallOfFame = () => {
   useEffect(() => {
     const fetchEntries = async () => {
       try {
-        const q = query(collection(db, 'hallOfFame'), orderBy('date', 'desc'))
+        // Try to order by litters first (descending for highest first)
+        let q
+        try {
+          q = query(collection(db, 'hallOfFame'), orderBy('litters', 'desc'))
+        } catch (indexError: any) {
+          // If index doesn't exist, fetch all and sort in memory
+          console.warn('Index for litters not found, fetching all and sorting in memory...')
+          q = query(collection(db, 'hallOfFame'))
+        }
+        
         const querySnapshot = await getDocs(q)
         const loadedEntries: HallOfFameEntry[] = []
         querySnapshot.forEach((doc) => {
           loadedEntries.push({ id: doc.id, ...doc.data() } as HallOfFameEntry)
         })
-        setEntries(loadedEntries)
+        
+        // Sort by litters descending (highest first) and take top 3
+        const sortedEntries = loadedEntries
+          .sort((a, b) => b.litters - a.litters)
+          .slice(0, 3)
+        
+        setEntries(sortedEntries)
         setError(null)
       } catch (err) {
         console.error('Error fetching hall of fame:', err)
