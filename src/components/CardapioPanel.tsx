@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { FiX, FiChevronRight, FiSearch, FiImage } from 'react-icons/fi'
-import { WHATSAPP_NUMBER } from '../data/content'
-import { buildWhatsAppUrl } from '../utils/whatsapp'
 import type { MenuItem } from '../data/content'
 import { useMenuItems } from '../hooks/useMenuItems'
 
@@ -245,17 +243,6 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
           </div>
             </>
           )}
-        </div>
-
-        <div className="cardapio-footer">
-          <a
-            className="cta whatsapp"
-            href={buildWhatsAppUrl('Olá! Quero fazer um pedido.', WHATSAPP_NUMBER)}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Pedir pelo WhatsApp
-          </a>
         </div>
       </div>
     </div>

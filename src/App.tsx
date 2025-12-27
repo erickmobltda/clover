@@ -8,6 +8,7 @@ import WhatsAppFab from './components/WhatsAppFab'
 import Eventos from './pages/Eventos'
 import Franquia from './pages/Franquia'
 import Home from './pages/Home'
+import Menu from './pages/Menu'
 import Recrutamento from './pages/Recrutamento'
 import Login from './pages/admin/Login'
 import Dashboard from './pages/admin/Dashboard'
@@ -29,6 +30,8 @@ const App = () => {
             </AdminRoute>
           }
         />
+        {/* Standalone menu page - mobile optimized, no header/footer */}
+        <Route path="/menu" element={<Menu />} />
         {/* Public routes */}
         <Route
           path="/*"
