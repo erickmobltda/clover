@@ -6,8 +6,9 @@ import {
   PiFootballBold,
   PiMusicNotesBold,
 } from 'react-icons/pi'
-import { beerStyles, hallOfFame, homeHighlights, WHATSAPP_NUMBER } from '../data/content'
+import { beerStyles, homeHighlights, WHATSAPP_NUMBER } from '../data/content'
 import { openWhatsApp } from '../utils/whatsapp'
+import { useHallOfFame } from '../hooks/useHallOfFame'
 
 const Home = () => {
   const [reservation, setReservation] = useState({
@@ -19,6 +20,7 @@ const Home = () => {
   const beerTrackRef = useRef<HTMLDivElement>(null)
   const heroSlides = ['/hero-slide-1.jpg', '/hero-slide-2.jpg']
   const [currentSlide, setCurrentSlide] = useState(0)
+  const { entries: hallOfFame, loading: hallOfFameLoading } = useHallOfFame()
 
   const handleReservation = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -209,17 +211,27 @@ const Home = () => {
       <section className="hall-of-fame">
         <p className="eyebrow">Hall da fama</p>
         <h2>nº de pints em uma noite</h2>
-        <div className="hall-grid">
-          {hallOfFame.map((person) => (
-            <article key={person.name}>
-              <img src={person.image} alt={`Foto de ${person.name}`} loading="lazy" />
-              <div>
-                <h3>{person.name}</h3>
-                <p>{person.score}</p>
+        {hallOfFameLoading ? (
+          <div style={{ textAlign: 'center', padding: '40px' }}>Carregando...</div>
+        ) : (
+          <div className="hall-grid">
+            {hallOfFame.length > 0 ? (
+              hallOfFame.map((person) => (
+                <article key={person.id || person.name}>
+                  <img src={person.image} alt={`Foto de ${person.name}`} loading="lazy" />
+                  <div>
+                    <h3>{person.name}</h3>
+                    <p>{person.litters}L</p>
+                  </div>
+                </article>
+              ))
+            ) : (
+              <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+                Nenhuma entrada no Hall da Fama ainda.
               </div>
-            </article>
-          ))}
-        </div>
+            )}
+          </div>
+        )}
       </section>
 
       <section id="cervejas" className="beer-carousel">

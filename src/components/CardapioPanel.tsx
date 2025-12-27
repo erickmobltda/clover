@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { FiX, FiChevronRight } from 'react-icons/fi'
-import { menuCategories, WHATSAPP_NUMBER } from '../data/content'
+import { WHATSAPP_NUMBER } from '../data/content'
 import { buildWhatsAppUrl } from '../utils/whatsapp'
-import type { MenuItem } from '../data/content'
+import type { MenuItem, MenuCategory } from '../data/content'
+import { useMenuItems } from '../hooks/useMenuItems'
 
 type CardapioPanelProps = {
   open: boolean
@@ -17,12 +18,13 @@ const formatPrice = (price: number | string): string => {
 const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({})
+  const { menuCategories, loading } = useMenuItems()
 
   useEffect(() => {
     if (open && menuCategories.length > 0) {
       setSelectedCategory(menuCategories[0].id)
     }
-  }, [open])
+  }, [open, menuCategories])
 
   const scrollToCategory = (categoryId: string) => {
     setSelectedCategory(categoryId)
@@ -38,6 +40,16 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
   }
 
   if (!open) return null
+
+  if (loading) {
+    return (
+      <div className="cardapio-overlay" role="dialog" aria-modal="true" aria-label="Cardápio">
+        <div className="cardapio-panel">
+          <div style={{ textAlign: 'center', padding: '40px' }}>Carregando cardápio...</div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="cardapio-overlay" role="dialog" aria-modal="true" aria-label="Cardápio">
@@ -61,9 +73,15 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
         </div>
 
         <div className="cardapio-container">
-          <nav className="cardapio-nav" aria-label="Navegação do cardápio">
-            <ul className="cardapio-nav-list">
-              {menuCategories.map((category) => (
+          {menuCategories.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+              Nenhum item no cardápio ainda.
+            </div>
+          ) : (
+            <>
+              <nav className="cardapio-nav" aria-label="Navegação do cardápio">
+                <ul className="cardapio-nav-list">
+                  {menuCategories.map((category) => (
                 <li key={category.id}>
                   <button
                     type="button"
@@ -75,12 +93,12 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
                     <FiChevronRight size={16} />
                   </button>
                 </li>
-              ))}
-            </ul>
-          </nav>
+                  ))}
+                </ul>
+              </nav>
 
-          <div className="cardapio-content">
-            {menuCategories.map((category) => (
+              <div className="cardapio-content">
+                {menuCategories.map((category) => (
               <section
                 key={category.id}
                 id={category.id}
@@ -132,6 +150,8 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
               </section>
             ))}
           </div>
+            </>
+          )}
         </div>
 
         <div className="cardapio-footer">
