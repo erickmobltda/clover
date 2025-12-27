@@ -215,155 +215,187 @@ const MenuManager = () => {
       </div>
 
       {showForm && (
-        <div style={{
-          backgroundColor: 'white',
-          padding: '30px',
-          borderRadius: '8px',
-          marginBottom: '30px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h3 style={{ margin: 0, color: '#134a32' }}>
-              {editingItem ? 'Editar Item' : 'Novo Item'}
-            </h3>
-            <button
-              onClick={resetForm}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '24px',
-                color: '#666'
-              }}
-            >
-              <FiX />
-            </button>
-          </div>
-          <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Categoria</label>
-              <select
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                required
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  boxSizing: 'border-box'
-                }}
-              >
-                <option value="">Selecione uma categoria</option>
-                {MENU_CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Nome</label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  boxSizing: 'border-box'
-                }}
-              />
-            </div>
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Descrição</label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                rows={3}
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  boxSizing: 'border-box',
-                  fontFamily: 'inherit'
-                }}
-              />
-            </div>
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Valor (R$)</label>
-              <input
-                type="number"
-                step="0.01"
-                value={formData.value}
-                onChange={(e) => setFormData({ ...formData, value: parseFloat(e.target.value) || 0 })}
-                required
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  boxSizing: 'border-box'
-                }}
-              />
-            </div>
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>URL da Imagem</label>
-              <input
-                type="url"
-                value={formData.img_url}
-                onChange={(e) => setFormData({ ...formData, img_url: e.target.value })}
-                required
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  boxSizing: 'border-box'
-                }}
-              />
-            </div>
-            <div style={{ display: 'flex', gap: '10px' }}>
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '20px'
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              resetForm()
+            }
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: 'white',
+              padding: '30px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+              maxWidth: '600px',
+              width: '100%',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              position: 'relative'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ margin: 0, color: '#134a32' }}>
+                {editingItem ? 'Editar Item' : 'Novo Item'}
+              </h3>
               <button
-                type="submit"
-                style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#134a32',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '16px'
-                }}
-              >
-                {editingItem ? 'Atualizar' : 'Salvar'}
-              </button>
-              <button
-                type="button"
                 onClick={resetForm}
                 style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#ccc',
-                  color: '#333',
+                  background: 'none',
                   border: 'none',
-                  borderRadius: '4px',
                   cursor: 'pointer',
-                  fontSize: '16px'
+                  fontSize: '24px',
+                  color: '#666',
+                  padding: '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
               >
-                Cancelar
+                <FiX />
               </button>
             </div>
-          </form>
+            <form onSubmit={handleSubmit}>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Categoria</label>
+                <select
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '16px',
+                    boxSizing: 'border-box'
+                  }}
+                >
+                  <option value="">Selecione uma categoria</option>
+                  {MENU_CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat.toUpperCase()}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Nome</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '16px',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Descrição</label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  rows={3}
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '16px',
+                    boxSizing: 'border-box',
+                    fontFamily: 'inherit'
+                  }}
+                />
+              </div>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Valor (R$)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={formData.value}
+                  onChange={(e) => setFormData({ ...formData, value: parseFloat(e.target.value) || 0 })}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '16px',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>URL da Imagem</label>
+                <input
+                  type="url"
+                  value={formData.img_url}
+                  onChange={(e) => setFormData({ ...formData, img_url: e.target.value })}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '16px',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button
+                  type="submit"
+                  style={{
+                    padding: '10px 20px',
+                    backgroundColor: '#134a32',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '16px'
+                  }}
+                >
+                  {editingItem ? 'Atualizar' : 'Salvar'}
+                </button>
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  style={{
+                    padding: '10px 20px',
+                    backgroundColor: '#ccc',
+                    color: '#333',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '16px'
+                  }}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 

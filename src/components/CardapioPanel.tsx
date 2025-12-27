@@ -268,7 +268,6 @@ type MenuItemCardProps = {
 
 const MenuItemCard = ({ item }: MenuItemCardProps) => {
   const [imageError, setImageError] = useState(false)
-  const [imageLoaded, setImageLoaded] = useState(false)
 
   const hasImage = item.image && !imageError
 
@@ -282,8 +281,6 @@ const MenuItemCard = ({ item }: MenuItemCardProps) => {
             className="menu-item-image"
             loading="lazy"
             onError={() => setImageError(true)}
-            onLoad={() => setImageLoaded(true)}
-            style={{ display: imageLoaded ? 'block' : 'none' }}
           />
         ) : null}
         {!hasImage && (
