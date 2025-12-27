@@ -6,6 +6,7 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import WhatsAppFab from './components/WhatsAppFab'
 import Eventos from './pages/Eventos'
+import Franquia from './pages/Franquia'
 import Home from './pages/Home'
 import Recrutamento from './pages/Recrutamento'
 import Login from './pages/admin/Login'
@@ -42,6 +43,7 @@ const App = () => {
                   <Route path="/" element={<Home />} />
                   <Route path="/eventos" element={<Eventos />} />
                   <Route path="/recrutamento" element={<Recrutamento />} />
+                  <Route path="/franquia" element={<Franquia />} />
                 </Routes>
               </main>
               <Footer />

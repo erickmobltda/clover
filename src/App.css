@@ -868,6 +868,103 @@ section {
   padding: 0.85rem 1rem;
 }
 
+.franquia-benefits {
+  padding: 2rem 0;
+}
+
+.franquia-benefits > div {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background: rgba(11, 48, 33, 0.6);
+}
+
+.franquia-benefits ul {
+  padding-left: 1.2rem;
+  color: var(--stone-400);
+  list-style-type: disc;
+}
+
+.franquia-benefits li {
+  margin-bottom: 0.5rem;
+}
+
+.franquia-model {
+  padding: 2rem 0;
+}
+
+.model-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 2rem;
+  background: rgba(11, 48, 33, 0.6);
+  max-width: 600px;
+}
+
+.model-price {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--gold-500);
+  margin: 1rem 0;
+}
+
+.model-card ul {
+  padding-left: 1.2rem;
+  color: var(--stone-400);
+  margin-top: 1rem;
+}
+
+.model-card li {
+  margin-bottom: 0.5rem;
+}
+
+.franquia-form-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.franquia-form-section > div {
+  padding: 1rem 0;
+}
+
+.franquia-form {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background: rgba(11, 48, 33, 0.6);
+  display: grid;
+  gap: 1rem;
+}
+
+.franquia-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.franquia-form label span {
+  color: var(--stone-300);
+  font-size: 0.9rem;
+}
+
+.franquia-form input {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+}
+
+.franquia-form input:focus {
+  outline: none;
+  border-color: var(--gold-500);
+  background: rgba(255, 255, 255, 0.08);
+}
+
 .whatsapp {
   justify-content: center;
 }

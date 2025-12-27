@@ -10,6 +10,7 @@ const navLinks = [
   { label: 'Home', path: '/' },
   { label: 'Eventos', path: '/eventos' },
   { label: 'Recrutamento', path: '/recrutamento' },
+  { label: 'Franquia', path: '/franquia' },
 ]
 
 const Header = ({ onOpenCardapio }: HeaderProps) => {
