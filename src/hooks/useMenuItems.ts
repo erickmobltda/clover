@@ -26,6 +26,28 @@ const CATEGORY_NAMES: Record<string, string> = {
   'outras-doses': 'OUTRAS DOSES (60ML)',
 }
 
+// Category order for menu display
+const CATEGORY_ORDER = [
+  'entradas',
+  'burgers',
+  'carnes-e-pratos',
+  'sobremesas',
+  'petiscos',
+  'gintonica',
+  'caipirinhas',
+  'negroni',
+  'drinks-classicos',
+  'drinks-autorais',
+  'drinks-premium',
+  'doses-whiskey',
+  'whiskey-premium',
+  'outras-doses',
+  'drinks-sem-alcool',
+  'soda-italiana',
+  'outras-bebidas',
+  'cervejas-no-tap',
+]
+
 export const useMenuItems = () => {
   const [menuCategories, setMenuCategories] = useState<MenuCategory[]>([])
   const [loading, setLoading] = useState(true)
@@ -73,6 +95,20 @@ export const useMenuItems = () => {
         })
 
         const categories = Array.from(categoriesMap.values())
+        
+        // Sort categories according to CATEGORY_ORDER
+        categories.sort((a, b) => {
+          const indexA = CATEGORY_ORDER.indexOf(a.id)
+          const indexB = CATEGORY_ORDER.indexOf(b.id)
+          
+          // If category not in order list, put it at the end
+          if (indexA === -1 && indexB === -1) return 0
+          if (indexA === -1) return 1
+          if (indexB === -1) return -1
+          
+          return indexA - indexB
+        })
+        
         setMenuCategories(categories)
         setError(null)
       } catch (err: any) {
@@ -118,6 +154,20 @@ export const useMenuItems = () => {
             })
 
             const categories = Array.from(categoriesMap.values())
+            
+            // Sort categories according to CATEGORY_ORDER
+            categories.sort((a, b) => {
+              const indexA = CATEGORY_ORDER.indexOf(a.id)
+              const indexB = CATEGORY_ORDER.indexOf(b.id)
+              
+              // If category not in order list, put it at the end
+              if (indexA === -1 && indexB === -1) return 0
+              if (indexA === -1) return 1
+              if (indexB === -1) return -1
+              
+              return indexA - indexB
+            })
+            
             setMenuCategories(categories)
             setError(null)
           } catch (retryErr) {

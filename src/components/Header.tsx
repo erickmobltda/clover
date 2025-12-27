@@ -10,7 +10,6 @@ const navLinks = [
   { label: 'Home', path: '/' },
   { label: 'Eventos', path: '/eventos' },
   { label: 'Recrutamento', path: '/recrutamento' },
-  { label: 'Franquia', path: '/franquia' },
 ]
 
 const Header = ({ onOpenCardapio }: HeaderProps) => {
@@ -36,7 +35,8 @@ const Header = ({ onOpenCardapio }: HeaderProps) => {
         </button>
 
         <nav className={`primary-nav ${isOpen ? 'is-open' : ''}`}>
-          {navLinks.map((link) => (
+          {/* Home link */}
+          {navLinks.slice(0, 1).map((link) => (
             <NavLink
               key={link.path}
               to={link.path}
@@ -46,6 +46,7 @@ const Header = ({ onOpenCardapio }: HeaderProps) => {
               {link.label}
             </NavLink>
           ))}
+          {/* Cardapio button */}
           <button
             className="cardapio-link"
             type="button"
@@ -56,6 +57,17 @@ const Header = ({ onOpenCardapio }: HeaderProps) => {
           >
             Cardápio
           </button>
+          {/* Other nav links */}
+          {navLinks.slice(1).map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={({ isActive }) => (isActive ? 'active' : '')}
+              onClick={closeMenu}
+            >
+              {link.label}
+            </NavLink>
+          ))}
         </nav>
       </div>
     </header>
