@@ -1,5 +1,6 @@
 import { type FormEvent, type ReactNode, useEffect, useRef, useState } from 'react'
 import { FiCalendar, FiUsers, FiPhone, FiArrowRight } from 'react-icons/fi'
+import { FaInstagram } from 'react-icons/fa'
 import {
   PiBeerSteinBold,
   PiForkKnifeBold,
@@ -64,6 +65,7 @@ const Home = () => {
 
   return (
     <div className="page home-page">
+      {/* 1. Hero Slider */}
       <section className="hero-slider" aria-label="Galeria do Clover Pub">
         {heroSlides.map((src, index) => (
           <div
@@ -78,48 +80,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="hero">
-        <p className="eyebrow">Desde 2015</p>
-        <h1>Um tradicional pub europeu em Joinville</h1>
-        <p className="lead">
-          Inspirado nos bares clássicos da Inglaterra, Irlanda, Bélgica, Alemanha e Holanda. Tap
-          list com rotação semanal, drinks autorais, cozinha comfort food e programação musical ao
-          vivo.
-        </p>
-        <div className="hero-ctas">
-          <button
-            type="button"
-            className="cta primary"
-            onClick={() =>
-              openWhatsApp('Olá! Quero fazer uma reserva.', WHATSAPP_NUMBER)
-            }
-          >
-            Fazer reserva
-          </button>
-          <a className="cta ghost" href="#cervejas">
-            Ver taps semanais
-          </a>
-        </div>
-      </section>
-
-      <section className="highlights">
-        {highlightRows.map((row, index) => (
-          <div key={`row-${index}`} className="highlight-row">
-            {row.map((highlight) => (
-              <article key={highlight.title} className="highlight-card">
-                <div className="icon-circle" aria-hidden="true">
-                  {highlightIcons[highlight.title]}
-                </div>
-                <div>
-                  <h3>{highlight.title}</h3>
-                  <p>{highlight.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        ))}
-      </section>
-
+      {/* 2. Reserva */}
       <section className="reservation">
         <div>
           <p className="eyebrow">Faça sua reserva</p>
@@ -197,17 +158,7 @@ const Home = () => {
         </form>
       </section>
 
-      <section className="experience">
-        <div>
-          <p className="eyebrow">Experiência completa</p>
-          <h2>Ambiente criado para transportar você aos pubs europeus</h2>
-          <p>
-            Duas pistas com atmosferas diferentes, cartas de cerveja e drinks em constante evolução
-            e um time apaixonado por esportes, música e gastronomia.
-          </p>
-        </div>
-      </section>
-
+      {/* 3. Hall da Fama */}
       <section className="hall-of-fame">
         <p className="eyebrow">Hall da fama</p>
         <h2>nº de pints em uma noite</h2>
@@ -234,6 +185,63 @@ const Home = () => {
         )}
       </section>
 
+      {/* 4. Hero text */}
+      <section className="hero">
+        <p className="eyebrow">Desde 2015</p>
+        <h1>Um tradicional pub europeu em Joinville</h1>
+        <p className="lead">
+          Inspirado nos bares clássicos da Inglaterra, Irlanda, Bélgica, Alemanha e Holanda. Tap
+          list com rotação semanal, drinks autorais, cozinha comfort food e programação musical ao
+          vivo.
+        </p>
+        <div className="hero-ctas">
+          <button
+            type="button"
+            className="cta primary"
+            onClick={() =>
+              openWhatsApp('Olá! Quero fazer uma reserva.', WHATSAPP_NUMBER)
+            }
+          >
+            Fazer reserva
+          </button>
+          <a className="cta ghost" href="#cervejas">
+            Ver taps semanais
+          </a>
+        </div>
+      </section>
+
+      {/* 5. Highlights */}
+      <section className="highlights">
+        {highlightRows.map((row, index) => (
+          <div key={`row-${index}`} className="highlight-row">
+            {row.map((highlight) => (
+              <article key={highlight.title} className="highlight-card">
+                <div className="icon-circle" aria-hidden="true">
+                  {highlightIcons[highlight.title]}
+                </div>
+                <div>
+                  <h3>{highlight.title}</h3>
+                  <p>{highlight.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        ))}
+      </section>
+
+      {/* 6. Experience */}
+      <section className="experience">
+        <div>
+          <p className="eyebrow">Experiência completa</p>
+          <h2>Ambiente criado para transportar você aos pubs europeus</h2>
+          <p>
+            Duas pistas com atmosferas diferentes, cartas de cerveja e drinks em constante evolução
+            e um time apaixonado por esportes, música e gastronomia.
+          </p>
+        </div>
+      </section>
+
+      {/* 7. Beer Carousel */}
       <section id="cervejas" className="beer-carousel">
         <div className="beer-header">
           <p className="eyebrow">Cervejas da casa</p>
@@ -277,6 +285,27 @@ const Home = () => {
         </div>
       </section>
 
+      {/* 8. Instagram */}
+      <section className="instagram-section">
+        <div className="instagram-card">
+          <FaInstagram className="instagram-icon" />
+          <p className="eyebrow">Siga-nos no Instagram</p>
+          <h2>@cloverpub</h2>
+          <p>
+            Acompanhe nossa programação, bastidores, novidades do tap e momentos especiais no pub.
+          </p>
+          <a
+            href="https://instagram.com/cloverpub"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta primary"
+          >
+            Seguir no Instagram <FiArrowRight />
+          </a>
+        </div>
+      </section>
+
+      {/* 9. CTA Banner */}
       <section className="cta-banner">
         <h2>Come and Share — Great Moments With Great People</h2>
         <button

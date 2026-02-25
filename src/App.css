@@ -820,21 +820,12 @@ section {
   gap: 1.5rem;
 }
 
-.event-resources article,
 .recruitment-grid > div,
 .recruitment-grid form {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1rem;
   padding: 1.5rem;
   background: rgba(11, 48, 33, 0.6);
-}
-
-.event-resources article {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 1.25rem 1.5rem;
-  background: rgba(4, 26, 19, 0.85);
 }
 
 .event-resource-icon {
@@ -1113,10 +1104,8 @@ section {
   }
 }
 
-/* Standalone Mobile Menu Page Styles */
+/* Menu Page Styles */
 .menu-page {
-  min-height: 100vh;
-  background: var(--green-900);
   color: var(--stone-200);
   display: flex;
   flex-direction: column;
@@ -1138,43 +1127,6 @@ section {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
   color: var(--stone-200);
-}
-
-.menu-header {
-  position: sticky;
-  top: 0;
-  background: rgba(4, 26, 19, 0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(198, 161, 91, 0.2);
-  padding: 1rem;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.menu-home-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--gold-500);
-  text-decoration: none;
-  font-size: 0.9rem;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  transition: background-color 0.2s;
-}
-
-.menu-home-link:hover {
-  background: rgba(198, 161, 91, 0.1);
-}
-
-.menu-header h1 {
-  flex: 1;
-  margin: 0;
-  font-size: 1.5rem;
-  color: var(--stone-200);
-  font-family: 'Grenze Gotisch', 'Playfair Display', serif;
 }
 
 .menu-search-wrapper {
@@ -1207,7 +1159,7 @@ section {
 
 .menu-nav {
   position: sticky;
-  top: 73px; /* Below header */
+  top: 0;
   background: rgba(4, 26, 19, 0.95);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(198, 161, 91, 0.2);
@@ -1396,10 +1348,6 @@ section {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .menu-header h1 {
-    font-size: 2rem;
-  }
-
   .menu-category-title {
     font-size: 2rem;
   }
@@ -1416,4 +1364,99 @@ section {
     margin: 0 auto;
     width: 100%;
   }
+}
+
+/* Instagram Section */
+.instagram-section {
+  margin-top: 4rem;
+}
+
+.instagram-card {
+  text-align: center;
+  border: 1px solid rgba(198, 161, 91, 0.4);
+  border-radius: 1.5rem;
+  padding: 3rem 2rem;
+  background: rgba(4, 26, 19, 0.85);
+}
+
+.instagram-icon {
+  font-size: 3rem;
+  color: var(--gold-500);
+  margin-bottom: 1rem;
+}
+
+.instagram-card h2 {
+  font-family: 'Grenze Gotisch', serif;
+  color: var(--stone-200);
+}
+
+.instagram-card p {
+  max-width: 480px;
+  margin: 0 auto 1.5rem;
+  color: var(--stone-400);
+}
+
+.instagram-card .cta {
+  display: inline-flex;
+}
+
+/* Eventos - Hero Image */
+.evento-hero-image {
+  margin-top: 2rem;
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+.evento-hero-image .event-resource-placeholder {
+  height: clamp(200px, 40vw, 360px);
+}
+
+/* Eventos - Resource Cards with Images */
+.event-resource-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: rgba(4, 26, 19, 0.85);
+}
+
+.event-resource-placeholder {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, rgba(19, 74, 50, 0.3) 0%, rgba(4, 26, 19, 0.5) 100%);
+  color: rgba(198, 161, 91, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.85rem;
+}
+
+.event-resource-info {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+}
+
+/* Recrutamento - Team Photo Background */
+.recruitment-why {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.recruitment-why::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 26, 19, 0.8);
+}
+
+.recruitment-why-content {
+  position: relative;
+  z-index: 1;
 }

@@ -64,23 +64,28 @@ export const menuImages = [
 export const eventResources = [
   {
     title: '60 lugares em mesas',
-    description: 'Monte confraternizações corporativas ou aniversários com serviço completo.',
+    description: 'Amplo salão com decoração europeia autêntica, mesas de madeira maciça e iluminação aconchegante. Monte confraternizações corporativas ou aniversários com serviço completo.',
+    image: 'https://cloverpub.com.br/wp-content/smush-webp/2025/03/Imagem-do-WhatsApp-de-2025-10-21-as-16.14.43_ac5e13eb.jpg.webp',
   },
   {
     title: 'Auditório para 50 pessoas',
-    description: 'Formato palestra com estrutura de cadeiras, palco e apoio técnico.',
+    description: 'Mezzanino com capacidade para 50 pessoas sentadas em formato palestra, com estrutura de cadeiras, palco elevado e apoio técnico completo.',
+    image: 'https://cloverpub.com.br/wp-content/smush-webp/2025/03/Imagem-do-WhatsApp-de-2025-10-21-as-16.14.43_f3810eca.jpg.webp',
   },
   {
     title: 'Palco para apresentações',
-    description: 'Som dedicado e espaço pronto para shows, stand-ups ou DJs convidados.',
+    description: 'Palco dedicado com sistema de som profissional, pronto para shows, stand-ups, DJs convidados ou apresentações corporativas.',
+    image: 'https://cloverpub.com.br/wp-content/smush-webp/2025/03/Imagem-do-WhatsApp-de-2025-10-21-as-16.16.31_815fd2a2.jpg.webp',
   },
   {
     title: 'Projetor + tela 80"',
-    description: 'Perfeito para demonstrar produtos, premiações ou assistir aos grandes jogos.',
+    description: 'Telão de 80 polegadas com projetor de alta definição. Perfeito para demonstrar produtos, premiações ou assistir aos grandes jogos.',
+    image: 'https://cloverpub.com.br/wp-content/smush-webp/2025/03/Imagem-do-WhatsApp-de-2025-10-21-as-16.16.31_667d9267.jpg.webp',
   },
   {
     title: 'Cardápio personalizável',
-    description: 'Selecione previamente bebidas e pratos que farão parte da sua celebração.',
+    description: 'Selecione previamente cervejas artesanais, drinks autorais e pratos da cozinha que farão parte da sua celebração exclusiva.',
+    image: 'https://cloverpub.com.br/wp-content/smush-webp/2025/04/Ipa-281x300.png.webp',
   },
 ]
 

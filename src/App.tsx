@@ -1,7 +1,5 @@
-import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import CardapioPanel from './components/CardapioPanel'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import WhatsAppFab from './components/WhatsAppFab'
@@ -15,8 +13,6 @@ import Dashboard from './pages/admin/Dashboard'
 import AdminRoute from './pages/admin/AdminRoute'
 
 const App = () => {
-  const [cardapioOpen, setCardapioOpen] = useState(false)
-
   return (
     <div className="app-shell">
       <Routes>
@@ -30,8 +26,6 @@ const App = () => {
             </AdminRoute>
           }
         />
-        {/* Standalone menu page - mobile optimized, no header/footer */}
-        <Route path="/menu" element={<Menu />} />
         {/* Public routes */}
         <Route
           path="/*"
@@ -40,10 +34,11 @@ const App = () => {
               <a className="skip-link" href="#conteudo-principal">
                 Ir para o conteúdo
               </a>
-              <Header onOpenCardapio={() => setCardapioOpen(true)} />
+              <Header />
               <main id="conteudo-principal" className="page-wrapper">
                 <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/menu" element={<Menu />} />
                   <Route path="/eventos" element={<Eventos />} />
                   <Route path="/recrutamento" element={<Recrutamento />} />
                   <Route path="/franquia" element={<Franquia />} />
@@ -51,7 +46,6 @@ const App = () => {
               </main>
               <Footer />
               <WhatsAppFab />
-              <CardapioPanel open={cardapioOpen} onClose={() => setCardapioOpen(false)} />
             </>
           }
         />

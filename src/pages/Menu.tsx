@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
-import { FiSearch, FiImage, FiHome, FiChevronRight } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { FiSearch, FiImage, FiChevronRight } from 'react-icons/fi'
 import type { MenuItem } from '../data/content'
 import { useMenuItems } from '../hooks/useMenuItems'
 
@@ -82,13 +81,6 @@ const Menu = () => {
   if (error) {
     return (
       <div className="menu-page">
-        <div className="menu-header">
-          <Link to="/" className="menu-home-link">
-            <FiHome size={20} />
-            <span>Voltar</span>
-          </Link>
-          <h1>Cardápio Clover Pub</h1>
-        </div>
         <div className="menu-error">
           <p>Erro ao carregar o cardápio.</p>
           <p>{error.message || 'Por favor, tente novamente mais tarde.'}</p>
@@ -99,13 +91,6 @@ const Menu = () => {
 
   return (
     <div className="menu-page">
-      <div className="menu-header">
-        <Link to="/" className="menu-home-link">
-          <FiHome size={20} />
-          <span>Voltar</span>
-        </Link>
-        <h1>Cardápio Clover Pub</h1>
-      </div>
 
       <div className="menu-search-wrapper">
         <FiSearch

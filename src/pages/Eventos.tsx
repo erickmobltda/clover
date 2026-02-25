@@ -1,4 +1,5 @@
 import { type ReactNode } from 'react'
+import { FiImage } from 'react-icons/fi'
 import { PiBeerSteinBold, PiChairBold, PiMicrophoneBold, PiTelevisionBold } from 'react-icons/pi'
 import { MdOutlineMusicNote } from 'react-icons/md'
 import { eventResources, WHATSAPP_NUMBER } from '../data/content'
@@ -38,15 +39,28 @@ const Eventos = () => (
       </div>
     </section>
 
+    <section className="evento-hero-image">
+      <div className="event-resource-placeholder">
+        <FiImage size={32} />
+        <span>Foto em breve</span>
+      </div>
+    </section>
+
     <section className="event-resources">
       {eventResources.map((item) => (
-        <article key={item.title}>
-          <div className="event-resource-icon" aria-hidden="true">
-            {iconMap[item.title] ?? <PiChairBold />}
+        <article key={item.title} className="event-resource-card">
+          <div className="event-resource-placeholder">
+            <FiImage size={32} />
+            <span>Foto em breve</span>
           </div>
-          <div>
-            <h3>{item.title}</h3>
-            <p>{item.description}</p>
+          <div className="event-resource-info">
+            <div className="event-resource-icon" aria-hidden="true">
+              {iconMap[item.title] ?? <PiChairBold />}
+            </div>
+            <div>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </div>
           </div>
         </article>
       ))}
@@ -72,4 +86,3 @@ const Eventos = () => (
 )
 
 export default Eventos
-

@@ -40,13 +40,15 @@ const Recrutamento = () => {
       </section>
 
       <section className="recruitment-grid">
-        <div>
-          <h2>Por que trabalhar no Clover Pub?</h2>
-          <ul>
-            {recruitmentHighlights.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+        <div className="recruitment-why" style={{ backgroundImage: 'url(/team-photo.jpg)' }}>
+          <div className="recruitment-why-content">
+            <h2>Por que trabalhar no Clover Pub?</h2>
+            <ul>
+              {recruitmentHighlights.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit}>
