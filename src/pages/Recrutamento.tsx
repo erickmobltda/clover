@@ -1,8 +1,10 @@
 import { type FormEvent, useState } from 'react'
 import { recruitmentHighlights, WHATSAPP_NUMBER } from '../data/content'
 import { openWhatsApp } from '../utils/whatsapp'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const Recrutamento = () => {
+  useScrollReveal()
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -39,7 +41,7 @@ const Recrutamento = () => {
         </p>
       </section>
 
-      <section className="recruitment-grid">
+      <section className="recruitment-grid reveal">
         <div className="recruitment-why" style={{ backgroundImage: 'url(/team-photo.jpg)' }}>
           <div className="recruitment-why-content">
             <h2>Por que trabalhar no Clover Pub?</h2>

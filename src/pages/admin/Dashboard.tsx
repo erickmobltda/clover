@@ -25,7 +25,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#f5f5f5', color: '#333' }}>
       <header style={{
         backgroundColor: '#134a32',
         color: 'white',

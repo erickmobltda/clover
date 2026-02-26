@@ -10,6 +10,7 @@ import {
 import { beerStyles, homeHighlights, WHATSAPP_NUMBER } from '../data/content'
 import { openWhatsApp } from '../utils/whatsapp'
 import { useHallOfFame } from '../hooks/useHallOfFame'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const Home = () => {
   const [reservation, setReservation] = useState({
@@ -22,6 +23,7 @@ const Home = () => {
   const heroSlides = ['/hero-slide-1.jpg', '/hero-slide-2.jpg']
   const [currentSlide, setCurrentSlide] = useState(0)
   const { entries: hallOfFame, loading: hallOfFameLoading } = useHallOfFame()
+  useScrollReveal()
 
   const handleReservation = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -81,7 +83,7 @@ const Home = () => {
       </section>
 
       {/* 2. Reserva */}
-      <section className="reservation">
+      <section className="reservation reveal">
         <div>
           <p className="eyebrow">Faça sua reserva</p>
           <h2>Garanta sua mesa via WhatsApp</h2>
@@ -159,7 +161,7 @@ const Home = () => {
       </section>
 
       {/* 3. Hall da Fama */}
-      <section className="hall-of-fame">
+      <section className="hall-of-fame reveal">
         <p className="eyebrow">Hall da fama</p>
         <h2>nº de pints em uma noite</h2>
         {hallOfFameLoading ? (
@@ -186,7 +188,7 @@ const Home = () => {
       </section>
 
       {/* 4. Hero text */}
-      <section className="hero">
+      <section className="hero reveal">
         <p className="eyebrow">Desde 2015</p>
         <h1>Um tradicional pub europeu em Joinville</h1>
         <p className="lead">
@@ -211,7 +213,7 @@ const Home = () => {
       </section>
 
       {/* 5. Highlights */}
-      <section className="highlights">
+      <section className="highlights reveal stagger">
         {highlightRows.map((row, index) => (
           <div key={`row-${index}`} className="highlight-row">
             {row.map((highlight) => (
@@ -230,7 +232,7 @@ const Home = () => {
       </section>
 
       {/* 6. Experience */}
-      <section className="experience">
+      <section className="experience reveal">
         <div>
           <p className="eyebrow">Experiência completa</p>
           <h2>Ambiente criado para transportar você aos pubs europeus</h2>
@@ -242,7 +244,7 @@ const Home = () => {
       </section>
 
       {/* 7. Beer Carousel */}
-      <section id="cervejas" className="beer-carousel">
+      <section id="cervejas" className="beer-carousel reveal">
         <div className="beer-header">
           <p className="eyebrow">Cervejas da casa</p>
           <h2>Confira os estilos que passam pelos taps</h2>
@@ -286,7 +288,7 @@ const Home = () => {
       </section>
 
       {/* 8. Instagram */}
-      <section className="instagram-section">
+      <section className="instagram-section reveal">
         <div className="instagram-card">
           <FaInstagram className="instagram-icon" />
           <p className="eyebrow">Siga-nos no Instagram</p>
@@ -306,7 +308,7 @@ const Home = () => {
       </section>
 
       {/* 9. CTA Banner */}
-      <section className="cta-banner">
+      <section className="cta-banner reveal">
         <h2>Come and Share — Great Moments With Great People</h2>
         <button
           type="button"

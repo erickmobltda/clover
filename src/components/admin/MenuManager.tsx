@@ -238,6 +238,7 @@ const MenuManager = () => {
           <div
             style={{
               backgroundColor: 'white',
+              color: '#333',
               padding: '30px',
               borderRadius: '8px',
               boxShadow: '0 4px 20px rgba(0,0,0,0.3)',

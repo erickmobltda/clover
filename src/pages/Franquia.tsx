@@ -1,8 +1,10 @@
 import { type FormEvent, useState } from 'react'
 import { WHATSAPP_NUMBER } from '../data/content'
 import { openWhatsApp } from '../utils/whatsapp'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const Franquia = () => {
+  useScrollReveal()
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -50,7 +52,7 @@ const Franquia = () => {
         </p>
       </section>
 
-      <section className="franquia-benefits">
+      <section className="franquia-benefits reveal">
         <div>
           <h2>Benefícios da franquia Clover</h2>
           <ul>
@@ -61,7 +63,7 @@ const Franquia = () => {
         </div>
       </section>
 
-      <section className="franquia-model">
+      <section className="franquia-model reveal">
         <div className="model-card">
           <h2>Modelo: Pub Completo</h2>
           <p className="model-price">A partir de R$ 600.000</p>
@@ -82,7 +84,7 @@ const Franquia = () => {
         <h2>Payback a partir de 18 meses com Royalties de 3 a 5%</h2>
       </section>
 
-      <section className="franquia-form-section">
+      <section className="franquia-form-section reveal">
         <div>
           <h2>Tenho interesse em abrir uma franquia</h2>
           <p>

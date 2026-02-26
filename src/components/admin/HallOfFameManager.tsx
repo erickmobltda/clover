@@ -117,6 +117,7 @@ const HallOfFameManager = () => {
       {showForm && (
         <div style={{
           backgroundColor: 'white',
+          color: '#333',
           padding: '30px',
           borderRadius: '8px',
           marginBottom: '30px',
