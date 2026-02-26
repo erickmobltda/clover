@@ -1474,10 +1474,24 @@ a.footer-item:hover .footer-icon {
   color: var(--stone-200);
 }
 
+.menu-sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(4, 26, 19, 0.97);
+  backdrop-filter: blur(16px) saturate(1.3);
+  transition: box-shadow 0.3s, border-color 0.3s;
+  border-bottom: 1px solid transparent;
+}
+
+.menu-sticky-header.is-scrolled {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 1px 12px var(--glow-gold);
+  border-bottom-color: rgba(198, 161, 91, 0.15);
+}
+
 .menu-search-wrapper {
   position: relative;
   padding: 1rem;
-  background: rgba(4, 26, 19, 0.5);
 }
 
 .menu-search-input {
@@ -1503,12 +1517,6 @@ a.footer-item:hover .footer-icon {
 }
 
 .menu-nav {
-  position: sticky;
-  top: 0;
-  background: rgba(4, 26, 19, 0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(198, 161, 91, 0.2);
-  z-index: 9;
   padding: 0.75rem 0;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -1561,8 +1569,9 @@ a.footer-item:hover .footer-icon {
 }
 
 .menu-category {
+  margin-top: 0;
   margin-bottom: 2.5rem;
-  scroll-margin-top: 150px; /* Account for sticky header + nav */
+  scroll-margin-top: 140px;
 }
 
 .menu-category-header {

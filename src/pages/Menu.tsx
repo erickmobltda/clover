@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { FiSearch, FiImage, FiChevronRight } from 'react-icons/fi'
 import type { MenuItem } from '../data/content'
 import { useMenuItems } from '../hooks/useMenuItems'
@@ -11,8 +11,19 @@ const formatPrice = (price: number | string): string => {
 const Menu = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [isScrolled, setIsScrolled] = useState(false)
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({})
+  const stickyRef = useRef<HTMLDivElement>(null)
   const { menuCategories, loading, error } = useMenuItems()
+
+  const handleScroll = useCallback(() => {
+    setIsScrolled(window.scrollY > 20)
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [handleScroll])
 
   useEffect(() => {
     if (menuCategories.length > 0) {
@@ -92,37 +103,32 @@ const Menu = () => {
   return (
     <div className="menu-page">
 
-      <div className="menu-search-wrapper">
-        <FiSearch
-          size={20}
-          style={{
-            position: 'absolute',
-            left: '16px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            color: '#666',
-            pointerEvents: 'none',
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Buscar pratos, drinks ou bebidas..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="menu-search-input"
-        />
-      </div>
+      <div
+        ref={stickyRef}
+        className={`menu-sticky-header${isScrolled ? ' is-scrolled' : ''}`}
+      >
+        <div className="menu-search-wrapper">
+          <FiSearch
+            size={20}
+            style={{
+              position: 'absolute',
+              left: '16px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#666',
+              pointerEvents: 'none',
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Buscar pratos, drinks ou bebidas..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="menu-search-input"
+          />
+        </div>
 
-      {menuCategories.length === 0 ? (
-        <div className="menu-empty">
-          <p>Nenhum item no cardápio ainda.</p>
-        </div>
-      ) : filteredCategories.length === 0 ? (
-        <div className="menu-empty">
-          <p>Nenhum item encontrado para "{searchQuery}".</p>
-        </div>
-      ) : (
-        <>
+        {filteredCategories.length > 0 && (
           <nav className="menu-nav" aria-label="Navegação do cardápio">
             <div className="menu-nav-scroll">
               {filteredCategories.map((category) => (
@@ -139,8 +145,19 @@ const Menu = () => {
               ))}
             </div>
           </nav>
+        )}
+      </div>
 
-          <div className="menu-content">
+      {menuCategories.length === 0 ? (
+        <div className="menu-empty">
+          <p>Nenhum item no cardápio ainda.</p>
+        </div>
+      ) : filteredCategories.length === 0 ? (
+        <div className="menu-empty">
+          <p>Nenhum item encontrado para "{searchQuery}".</p>
+        </div>
+      ) : (
+        <div className="menu-content">
             {filteredCategories.map((category) => (
               <section
                 key={category.id}
@@ -189,7 +206,6 @@ const Menu = () => {
               </section>
             ))}
           </div>
-        </>
       )}
     </div>
   )
