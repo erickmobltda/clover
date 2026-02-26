@@ -22,6 +22,9 @@ const Home = () => {
   const beerTrackRef = useRef<HTMLDivElement>(null)
   const heroSlides = ['/hero-slide-1.jpg', '/hero-slide-2.jpg']
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
   const { entries: hallOfFame, loading: hallOfFameLoading } = useHallOfFame()
   useScrollReveal()
 
@@ -254,6 +257,36 @@ const Home = () => {
           </p>
         </div>
         <div className="beer-track-wrapper">
+          <div
+            className="beer-track"
+            role="list"
+            aria-label="Estilos de cerveja"
+            ref={beerTrackRef}
+            onMouseDown={(e) => {
+              if (!beerTrackRef.current) return
+              setIsDragging(true)
+              setStartX(e.pageX - beerTrackRef.current.offsetLeft)
+              setScrollLeft(beerTrackRef.current.scrollLeft)
+            }}
+            onMouseLeave={() => setIsDragging(false)}
+            onMouseUp={() => setIsDragging(false)}
+            onMouseMove={(e) => {
+              if (!isDragging || !beerTrackRef.current) return
+              e.preventDefault()
+              const x = e.pageX - beerTrackRef.current.offsetLeft
+              const walk = (x - startX) * 2
+              beerTrackRef.current.scrollLeft = scrollLeft - walk
+            }}
+            style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+          >
+            {beerStyles.map((style) => (
+              <article key={style.name} role="listitem">
+                <img src={style.image} alt={`Estilo ${style.name}`} loading="lazy" />
+                <h3>{style.name}</h3>
+                <p>{style.description}</p>
+              </article>
+            ))}
+          </div>
           <div className="beer-controls" aria-hidden="true">
             <button
               type="button"
@@ -269,20 +302,6 @@ const Home = () => {
             >
               ›
             </button>
-          </div>
-          <div
-            className="beer-track"
-            role="list"
-            aria-label="Estilos de cerveja"
-            ref={beerTrackRef}
-          >
-            {beerStyles.map((style) => (
-              <article key={style.name} role="listitem">
-                <img src={style.image} alt={`Estilo ${style.name}`} loading="lazy" />
-                <h3>{style.name}</h3>
-                <p>{style.description}</p>
-              </article>
-            ))}
           </div>
         </div>
       </section>
