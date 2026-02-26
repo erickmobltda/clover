@@ -43,13 +43,13 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
         // Also check subcategories if they exist
         const filteredSubcategories = category.subcategories
           ? category.subcategories.map((subcategory) => ({
-              ...subcategory,
-              items: subcategory.items.filter(
-                (item) =>
-                  item.name.toLowerCase().includes(query) ||
-                  (item.description && item.description.toLowerCase().includes(query))
-              ),
-            }))
+            ...subcategory,
+            items: subcategory.items.filter(
+              (item) =>
+                item.name.toLowerCase().includes(query) ||
+                (item.description && item.description.toLowerCase().includes(query))
+            ),
+          }))
           : undefined
 
         return {
@@ -126,39 +126,14 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
           <p className="cardapio-description">
             Navegue pelas categorias e descubra nossos pratos, drinks e bebidas.
           </p>
-          <div style={{ marginTop: '20px', position: 'relative' }}>
-            <FiSearch
-              size={20}
-              style={{
-                position: 'absolute',
-                left: '16px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                color: '#666',
-                pointerEvents: 'none',
-              }}
-            />
+          <div className="menu-search-wrapper" style={{ marginTop: '20px' }}>
+            <FiSearch className="menu-search-icon" size={20} />
             <input
               type="text"
               placeholder="Buscar pratos, drinks ou bebidas..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '12px 16px 12px 48px',
-                border: '1px solid #ddd',
-                borderRadius: '8px',
-                fontSize: '16px',
-                boxSizing: 'border-box',
-                outline: 'none',
-                transition: 'border-color 0.2s',
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = '#134a32'
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = '#ddd'
-              }}
+              className="menu-search-input"
             />
           </div>
         </div>
@@ -177,70 +152,70 @@ const CardapioPanel = ({ open, onClose }: CardapioPanelProps) => {
               <nav className="cardapio-nav" aria-label="Navegação do cardápio">
                 <ul className="cardapio-nav-list">
                   {filteredCategories.map((category) => (
-                <li key={category.id}>
-                  <button
-                    type="button"
-                    className={`cardapio-nav-item ${selectedCategory === category.id ? 'active' : ''}`}
-                    onClick={() => scrollToCategory(category.id)}
-                    aria-current={selectedCategory === category.id ? 'page' : undefined}
-                  >
-                    {category.name}
-                    <FiChevronRight size={16} />
-                  </button>
-                </li>
+                    <li key={category.id}>
+                      <button
+                        type="button"
+                        className={`cardapio-nav-item ${selectedCategory === category.id ? 'active' : ''}`}
+                        onClick={() => scrollToCategory(category.id)}
+                        aria-current={selectedCategory === category.id ? 'page' : undefined}
+                      >
+                        {category.name}
+                        <FiChevronRight size={16} />
+                      </button>
+                    </li>
                   ))}
                 </ul>
               </nav>
 
               <div className="cardapio-content">
                 {filteredCategories.map((category) => (
-              <section
-                key={category.id}
-                id={category.id}
-                ref={(el) => {
-                  categoryRefs.current[category.id] = el
-                }}
-                className="cardapio-category"
-              >
-                {category.headerImage && (
-                  <div className="cardapio-category-header">
-                    <img
-                      src={category.headerImage}
-                      alt={category.name}
-                      className="cardapio-category-image"
-                      loading="lazy"
-                    />
-                  </div>
-                )}
-                <h3 className="cardapio-category-title">{category.name}</h3>
+                  <section
+                    key={category.id}
+                    id={category.id}
+                    ref={(el) => {
+                      categoryRefs.current[category.id] = el
+                    }}
+                    className="cardapio-category"
+                  >
+                    {category.headerImage && (
+                      <div className="cardapio-category-header">
+                        <img
+                          src={category.headerImage}
+                          alt={category.name}
+                          className="cardapio-category-image"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                    <h3 className="cardapio-category-title">{category.name}</h3>
 
-                {category.subcategories ? (
-                  category.subcategories.map((subcategory) => (
-                    <div key={subcategory.id} className="cardapio-subcategory">
-                      <h4 className="cardapio-subcategory-title">{subcategory.name}</h4>
+                    {category.subcategories ? (
+                      category.subcategories.map((subcategory) => (
+                        <div key={subcategory.id} className="cardapio-subcategory">
+                          <h4 className="cardapio-subcategory-title">{subcategory.name}</h4>
+                          <div className="cardapio-items-grid">
+                            {subcategory.items.map((item, index) => (
+                              <MenuItemCard
+                                key={`${subcategory.id}-${index}`}
+                                item={item}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
                       <div className="cardapio-items-grid">
-                        {subcategory.items.map((item, index) => (
+                        {category.items.map((item, index) => (
                           <MenuItemCard
-                            key={`${subcategory.id}-${index}`}
+                            key={`${category.id}-${index}`}
                             item={item}
                           />
                         ))}
                       </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="cardapio-items-grid">
-                    {category.items.map((item, index) => (
-                      <MenuItemCard
-                        key={`${category.id}-${index}`}
-                        item={item}
-                      />
-                    ))}
-                  </div>
-                )}
-              </section>
-            ))}
-          </div>
+                    )}
+                  </section>
+                ))}
+              </div>
             </>
           )}
         </div>

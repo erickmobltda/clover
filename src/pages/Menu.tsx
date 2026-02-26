@@ -49,13 +49,13 @@ const Menu = () => {
         // Also check subcategories if they exist
         const filteredSubcategories = category.subcategories
           ? category.subcategories.map((subcategory) => ({
-              ...subcategory,
-              items: subcategory.items.filter(
-                (item) =>
-                  item.name.toLowerCase().includes(query) ||
-                  (item.description && item.description.toLowerCase().includes(query))
-              ),
-            }))
+            ...subcategory,
+            items: subcategory.items.filter(
+              (item) =>
+                item.name.toLowerCase().includes(query) ||
+                (item.description && item.description.toLowerCase().includes(query))
+            ),
+          }))
           : undefined
 
         return {
@@ -108,17 +108,7 @@ const Menu = () => {
         className={`menu-sticky-header${isScrolled ? ' is-scrolled' : ''}`}
       >
         <div className="menu-search-wrapper">
-          <FiSearch
-            size={20}
-            style={{
-              position: 'absolute',
-              left: '16px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: '#666',
-              pointerEvents: 'none',
-            }}
-          />
+          <FiSearch className="menu-search-icon" size={20} />
           <input
             type="text"
             placeholder="Buscar pratos, drinks ou bebidas..."
@@ -158,54 +148,54 @@ const Menu = () => {
         </div>
       ) : (
         <div className="menu-content">
-            {filteredCategories.map((category) => (
-              <section
-                key={category.id}
-                id={category.id}
-                ref={(el) => {
-                  categoryRefs.current[category.id] = el
-                }}
-                className="menu-category"
-              >
-                {category.headerImage && (
-                  <div className="menu-category-header">
-                    <img
-                      src={category.headerImage}
-                      alt={category.name}
-                      className="menu-category-image"
-                      loading="lazy"
-                    />
-                  </div>
-                )}
-                <h2 className="menu-category-title">{category.name}</h2>
+          {filteredCategories.map((category) => (
+            <section
+              key={category.id}
+              id={category.id}
+              ref={(el) => {
+                categoryRefs.current[category.id] = el
+              }}
+              className="menu-category"
+            >
+              {category.headerImage && (
+                <div className="menu-category-header">
+                  <img
+                    src={category.headerImage}
+                    alt={category.name}
+                    className="menu-category-image"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <h2 className="menu-category-title">{category.name}</h2>
 
-                {category.subcategories ? (
-                  category.subcategories.map((subcategory) => (
-                    <div key={subcategory.id} className="menu-subcategory">
-                      <h3 className="menu-subcategory-title">{subcategory.name}</h3>
-                      <div className="menu-items-grid">
-                        {subcategory.items.map((item, index) => (
-                          <MenuItemCard
-                            key={`${subcategory.id}-${index}`}
-                            item={item}
-                          />
-                        ))}
-                      </div>
+              {category.subcategories ? (
+                category.subcategories.map((subcategory) => (
+                  <div key={subcategory.id} className="menu-subcategory">
+                    <h3 className="menu-subcategory-title">{subcategory.name}</h3>
+                    <div className="menu-items-grid">
+                      {subcategory.items.map((item, index) => (
+                        <MenuItemCard
+                          key={`${subcategory.id}-${index}`}
+                          item={item}
+                        />
+                      ))}
                     </div>
-                  ))
-                ) : (
-                  <div className="menu-items-grid">
-                    {category.items.map((item, index) => (
-                      <MenuItemCard
-                        key={`${category.id}-${index}`}
-                        item={item}
-                      />
-                    ))}
                   </div>
-                )}
-              </section>
-            ))}
-          </div>
+                ))
+              ) : (
+                <div className="menu-items-grid">
+                  {category.items.map((item, index) => (
+                    <MenuItemCard
+                      key={`${category.id}-${index}`}
+                      item={item}
+                    />
+                  ))}
+                </div>
+              )}
+            </section>
+          ))}
+        </div>
       )}
     </div>
   )
