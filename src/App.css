@@ -92,11 +92,13 @@ h3 {
 .site-header {
   position: sticky;
   top: 0;
-  backdrop-filter: blur(16px) saturate(1.4);
-  background: rgba(4, 26, 19, 0.88);
+  background: var(--green-900);
   border-bottom: 1px solid rgba(198, 161, 91, 0.15);
   z-index: 20;
   box-shadow: 0 1px 24px rgba(198, 161, 91, 0.06), 0 4px 40px var(--shadow-deep);
+  /* Extend the solid background into the iOS safe area (notch / status bar)
+     so scrolled content can't be seen blurred through the system UI. */
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
 .header-inner {
@@ -1549,19 +1551,31 @@ a.footer-item:hover .footer-icon {
   top: 90px;
   /* Prevents menu from being hidden under site-header */
   z-index: 10;
-  background: rgba(4, 26, 19, 0.97);
-  backdrop-filter: blur(16px) saturate(1.3);
-  transition: all 0.3s ease;
+  background: var(--green-900);
+  transition: box-shadow 0.3s ease, border-bottom-color 0.3s ease;
   border-bottom: 1px solid rgba(198, 161, 91, 0.1);
   border-radius: 0 0 1.5rem 1.5rem;
   margin: 0 -1.5rem 1.5rem -1.5rem;
   padding: 1rem 1.5rem 0.5rem 1.5rem;
 }
 
+/* Solid shield extending up to cover any gap between this header and the
+   site-header above it. The site-header sits at z-index:20 and covers the top
+   of this shield; anything below it gets hidden behind solid green-900. */
+.menu-sticky-header::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 200px;
+  background: var(--green-900);
+  pointer-events: none;
+}
+
 .menu-sticky-header.is-scrolled {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 1px 12px rgba(198, 161, 91, 0.1);
   border-bottom-color: rgba(198, 161, 91, 0.25);
-  background: rgba(4, 26, 19, 0.99);
 }
 
 .menu-search-wrapper {
@@ -1606,179 +1620,164 @@ a.footer-item:hover .footer-icon {
   color: var(--stone-400);
 }
 
-.menu-nav {
+.menu-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
   padding: 0 0 1rem 0;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  margin: 0 -1.5rem;
 }
 
-.menu-nav::-webkit-scrollbar {
-  display: none;
-}
-
-.menu-nav-scroll {
-  display: flex;
-  gap: 0.5rem;
-  padding: 0 1.5rem;
+.menu-tab {
+  flex: 1 1 auto;
   min-width: max-content;
-}
-
-.menu-nav-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: rgba(19, 74, 50, 0.3);
-  border: 1px solid rgba(198, 161, 91, 0.2);
+  padding: 0.6rem 1.1rem;
+  background: transparent;
+  border: 1px solid rgba(198, 161, 91, 0.35);
   border-radius: 999px;
-  color: var(--stone-300);
-  font-size: 0.875rem;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: inherit;
-}
-
-.menu-nav-item:hover {
-  background: rgba(19, 74, 50, 0.5);
-  border-color: rgba(198, 161, 91, 0.4);
   color: var(--stone-200);
+  font-family: 'Grenze Gotisch', serif;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.menu-nav-item.active {
-  background: var(--gold-500);
+.menu-tab:hover {
   border-color: var(--gold-500);
-  color: var(--green-900);
-  font-weight: 600;
+  color: var(--gold-300);
+}
+
+.menu-tab.active {
+  background: rgba(198, 161, 91, 0.18);
+  border-color: var(--gold-500);
+  color: var(--gold-300);
+  box-shadow: 0 0 0 1px var(--gold-500), 0 4px 16px var(--glow-gold);
 }
 
 .menu-content {
   flex: 1;
   padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.menu-category {
-  margin-top: 0;
-  margin-bottom: 2.5rem;
-  scroll-margin-top: 240px;
+.brochure-card {
+  position: relative;
+  border: 1.5px solid var(--gold-500);
+  border-radius: 0.25rem;
+  background: rgba(15, 60, 39, 0.55);
+  padding: 2rem 1.5rem;
+  scroll-margin-top: 220px;
+  box-shadow:
+    inset 0 0 0 4px rgba(11, 48, 33, 0.95),
+    inset 0 0 0 5px rgba(198, 161, 91, 0.45),
+    0 8px 24px rgba(2, 10, 7, 0.4);
 }
 
-.menu-category-header {
-  width: 100%;
-  height: 180px;
-  border-radius: 12px;
+.brochure-tab-break {
+  height: 0;
+  margin: 0.5rem 0;
+  border-top: 1px dashed rgba(198, 161, 91, 0.25);
+}
+
+.brochure-hero {
+  margin: 0 -0.25rem 1.5rem;
+  border-radius: 0.25rem;
   overflow: hidden;
-  margin-bottom: 1rem;
+  border: 1px solid rgba(198, 161, 91, 0.35);
+  aspect-ratio: 16 / 9;
+  background: rgba(4, 26, 19, 0.6);
 }
 
-.menu-category-image {
+.brochure-hero img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-.menu-category-title {
-  font-size: 1.5rem;
-  color: var(--gold-500);
-  margin: 0 0 1.5rem 0;
+.brochure-card-title {
   font-family: 'Grenze Gotisch', serif;
+  font-size: 1.75rem;
+  color: var(--gold-300);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.menu-subcategory {
-  margin-bottom: 2rem;
-}
-
-.menu-subcategory-title {
-  font-size: 1.1rem;
-  color: var(--stone-300);
-  margin: 0 0 1rem 0;
-  font-weight: 600;
-}
-
-.menu-items-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-.menu-item-card-mobile {
-  background: rgba(19, 74, 50, 0.3);
-  border: 1px solid rgba(198, 161, 91, 0.2);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.2s;
-}
-
-.menu-item-card-mobile:active {
-  transform: scale(0.98);
-  border-color: rgba(198, 161, 91, 0.4);
-}
-
-.menu-item-image-wrapper-mobile {
-  width: 100%;
-  height: 160px;
-  overflow: hidden;
-  background: rgba(4, 26, 19, 0.8);
+  letter-spacing: 0.06em;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 0.4rem;
   position: relative;
 }
 
-.menu-item-image-mobile {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.brochure-card-title::after {
+  content: '';
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--gold-500);
+  margin-top: 0.5rem;
 }
 
-.menu-item-image-placeholder-mobile {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, rgba(19, 74, 50, 0.3) 0%, rgba(4, 26, 19, 0.5) 100%);
-  color: rgba(198, 161, 91, 0.6);
-  border: 2px dashed rgba(198, 161, 91, 0.3);
-  padding: 1rem;
-  text-align: center;
-  font-size: 0.875rem;
+.brochure-subcategory {
+  margin-top: 1.25rem;
 }
 
-.menu-item-content-mobile {
-  padding: 1rem;
+.brochure-subcategory-title {
+  font-family: 'Grenze Gotisch', serif;
+  font-size: 1.2rem;
+  color: var(--gold-300);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.75rem 0;
 }
 
-.menu-item-header-mobile {
+.brochure-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.brochure-item {
+  padding: 0.65rem 0;
+}
+
+.brochure-item + .brochure-item {
+  border-top: 1px dashed rgba(198, 161, 91, 0.12);
+}
+
+.brochure-item-head {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: baseline;
   gap: 1rem;
-  margin-bottom: 0.5rem;
 }
 
-.menu-item-name-mobile {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--stone-200);
-  margin: 0;
-  flex: 1;
-}
-
-.menu-item-price-mobile {
-  font-size: 1.1rem;
+.brochure-item-name {
+  font-family: 'Lora', serif;
   font-weight: 700;
-  color: var(--gold-500);
+  font-size: 1rem;
+  color: var(--gold-300);
+  letter-spacing: 0.01em;
+  flex: 1;
+  min-width: 0;
+}
+
+.brochure-item-price {
+  font-family: 'Lora', serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--gold-300);
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
-.menu-item-description-mobile {
-  font-size: 0.875rem;
-  color: var(--stone-400);
-  margin: 0;
-  line-height: 1.5;
+.brochure-item-desc {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--stone-200);
+  margin: 0.2rem 0 0;
+  opacity: 0.85;
 }
 
 .menu-empty {
@@ -1789,23 +1788,23 @@ a.footer-item:hover .footer-icon {
 
 /* Tablet and up */
 @media (min-width: 768px) {
-  .menu-items-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .brochure-card {
+    padding: 2.25rem 1.75rem;
   }
 
-  .menu-category-title {
+  .brochure-card-title {
     font-size: 2rem;
+  }
+
+  .brochure-tab-break {
+    margin: 1rem 0;
   }
 }
 
 /* Desktop */
 @media (min-width: 1024px) {
-  .menu-items-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   .menu-content {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
     width: 100%;
   }

@@ -45,6 +45,22 @@ body {
   margin: 0;
   min-height: 100vh;
   background-color: var(--green-900);
+  overscroll-behavior-y: none;
+}
+
+/* Fixed shield covering the top of the viewport so iOS Safari's translucent
+   browser chrome (status bar + URL bar) blurs solid green instead of scrolled
+   page content. Sits below .site-header (z-index 20) but above page content. */
+body::before {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(env(safe-area-inset-top, 0px) + 60px);
+  background: var(--green-900);
+  z-index: 19;
+  pointer-events: none;
 }
 
 #root {
